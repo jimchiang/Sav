@@ -1,0 +1,68 @@
+DATASET ACTIVATE DataSet1.
+MATCH FILES /FILE=*
+/TABLE='DataSet2'
+/BY Respondent_Serial.
+EXECUTE.
+
+
+do repeat d = a04gn1 to a04gn8 a04b_011 to a04b_928.
+if not ( aflag = 1 )  d = $sysmis.
+end repeat.
+exe.
+
+do repeat d = a04gn1 to a10a_n11.
+if not (aflag = 1) d = $sysmis.
+end repeat.
+exe.
+
+
+                                TEMPORARY.
+SELECT IF GENDER=2.             SELECT IF GENDER=2.
+FREQUENCIES VAR=PARTY.          FREQUENCIES VAR=PARTY.
+CROSSTABS PARTY BY REGION.      CROSSTABS PARTY BY REGION.
+
+AUTOSAVE OFF NOPROMPT.
+
+DATASET ACTIVATE DataSet1.
+FILTER OFF.
+USE ALL.
+SELECT IF not any(seqnum,197303221
+,197304954
+,297312167
+,197300142
+,297310748
+,197301754
+,197303951
+,297314724
+,297316660
+,297318176
+,197300463
+,197302361
+,297310167
+,297310813
+,297311436
+,297315355
+,297317007
+,397458049
+,297310464
+,297313468
+,297314628
+,297312250
+,297310652
+,297311925
+,297314387
+,297311492
+,297310268).
+EXECUTE.
+
+SAVE OUTFILE='\\10.18.5.31\projects\pool\210\s710935\Data\from.JYO.1Q14\data_all_4q13_1q14_xString.zsav'
+  /ZCOMPRESSED
+ /keep=id
+idnumber
+quest
+week
+monthyr
+qtr
+tom
+unaw1
+.
